@@ -1,0 +1,19 @@
+@charset "utf-8";
+/*
+    Author:Sara Fields
+    Date:9/10/8/2026
+    Purpose: CSS stylings for my JavaScript project
+*/
+
+header {
+    text-align: center;
+}
+
+#greeting {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+header h2 {
+    font-size: 28px;
+}
