@@ -4,14 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Portfolio</title>
+    <link rel="stylesheet" href="project.css">
 </head>
+
 <body>
     <header>
-        <h1>My Portfolio</h1>
+        <!-- Dark mode control -->
+        <div class="theme-control">
+            <label for="darkMode">Dark Mode</label>
+
+            <label class="switch">
+                <input type="checkbox" id="darkMode">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <h1 id="greeting">Welcome to my portfolio!</h1>
+        <h2>My Portfolio</h2>
     </header>
 
     <nav>
         <a href="#about">About</a>
+        <a href="#featured">Featured Content</a>
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
     </nav>
@@ -20,63 +34,187 @@
         <section id="about">
             <h2>About Me</h2>
             <p>
-              Hello! My name is Sara Fields and I'm a student studying software development with
-              an interest in learning to code AI. I've been learning all manner of computational
-              skills including cyber security knowhow, learning C, Python, and now HTML, CSS, 
-              and JavaScript.
+                Hello! My name is Sara Fields and I'm a
+                student studying software development with
+                an interest in learning to code AI. I've
+                been learning all manner of computational
+                skills including cyber security knowhow,
+                learning C, Python, and now HTML, CSS,
+                and JavaScript.
             </p>
+
+            <h3>My Skills</h3>
+            <ul id="skillsList"></ul>
+        </section>
+
+        <!-- Featured content selected by JavaScript -->
+        <section id="featured">
+            <h2>Featured Content</h2>
+
+            <div id="universityResources" class="resource-box">
+                <h3>University Resources</h3>
+                <p>
+                    <a href="https://www.ecpi.edu/"
+                       target="_blank" rel="noopener noreferrer">
+                        ECPI University
+                    </a>
+                </p>
+            </div>
+
+            <div id="personalProjects" class="resource-box">
+                <h3>Personal Projects</h3>
+                <p>Explore some of my GitHub projects.</p>
+
+                <a href="https://github.com/sarfie5786/Storefront-website">
+                    <img src="images/ProjectGithubSSS.png"
+                         alt="Sara's Shirt Shop" width="200">
+                </a>
+
+                <a href="https://github.com/sarfie5786/Python">
+                    <img src="images/ProjectGithubPython.png"
+                         alt="Python Portfolio" width="200">
+                </a>
+
+                <a href="https://github.com/sarfie5786/DBZ">
+                    <img src="images/ProjectGithubShenron.png"
+                         alt="Shenron Bot" width="200">
+                </a>
+            </div>
         </section>
 
         <section id="projects">
             <h2>My Projects</h2>
-            <section id="projects">
-            <h2>My Projects</h2>
-        
-            <h3>Sara's Shirt Shop</h3>
-            <a href="https://github.com/sarfie5786/Storefront-website">
-                <img src="images/ProjectGithubSSS.png"
-                     alt="Sara's Shirt Shop project"
-                     width="250">
-            </a>
-        
-            <h3>JavaScript Lunch Calculator</h3>
-            <a href="https://github.com/sarfie5786/Python">
-                <img src="images/ProjectGithubPython.png"
-                     alt="Python for Data Analytics"
-                     width="250">
-            </a>
 
-            <h3>Shenron</h3>
-            <a href=https://github.com/sarfie5786/DBZ">
-                <img src="images/ProjectGithubShenron.png"
-                     alt="DBZ Bot"
-                     width="250">
+            <div class="project">
+                <h3>Sara's Shirt Shop</h3>
+                <a href="https://github.com/sarfie5786/Storefront-website">
+                    <img src="images/ProjectGithubSSS.png"
+                         alt="Sara's Shirt Shop project" width="250">
+                </a>
+            </div>
+
+            <div class="project">
+                <h3>Python for Data Analytics Class Portfolio</h3>
+                <a href="https://github.com/sarfie5786/Python">
+                    <img src="images/ProjectGithubPython.png"
+                         alt="Python for Data Analytics" width="250">
+                </a>
+            </div>
+
+            <div class="project">
+                <h3>Shenron</h3>
+                <a href="https://github.com/sarfie5786/DBZ">
+                    <img src="images/ProjectGithubShenron.png"
+                         alt="DBZ Bot" width="250">
+                </a>
+            </div>
         </section>
 
         <section id="contact">
-          <h2>Contact Me</h2>
-          
-          <form>
-              <label for="name">Name:</label>
-              <input type="text" id="name" name="name" required>
-          
-              <label for="email">Email Address:</label>
-              <input type="email" id="email" name="email" required>
-              
-              <label for="subject">Subject:</label>
-              <input type="text" id="subject" name="subject">
-              
-              <label for="message">Message:</label>
-              <textarea id="message" name="message" rows="5"
-                        required></textarea>
-              
-              <button type="submit">Submit</button>
-          </form>
+            <h2>Contact Me</h2>
+
+            <form id="contactForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject">
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message"
+                          rows="5" required></textarea>
+
+                <button type="submit" id="submitButton">Submit</button>
+            </form>
         </section>
     </main>
 
     <script>
-        
+        "use strict";
+
+        // Ask visitors for their names
+        let userName = prompt("Please enter your name:", "Guest");
+
+        if (userName !== null && userName.trim() !== "") {
+            document.getElementById("greeting").textContent =
+                "Welcome to my portfolio, " + userName + "!";
+        } else {
+            document.getElementById("greeting").textContent =
+                "Welcome to my portfolio!";
+        }
+
+        // Display skills using an array and a forEach loop
+        const skills = [
+                "Python",
+                "Bowling",
+                "Improvisation",
+                "D&D",
+                "Coding",
+                "3-D Modeling"
+        ];
+
+        const skillsList = document.getElementById("skillsList");
+
+        skills.forEach(function(skill) {
+            const listItem = document.createElement("li");
+            listItem.textContent = skill;
+            skillsList.appendChild(listItem);
+        });
+
+        // Count projects and determine featured content visibility
+        const projectCount =
+            document.querySelectorAll("#projects .project").length;
+
+        const universityResources =
+            document.getElementById("universityResources");
+
+        const personalProjects =
+            document.getElementById("personalProjects");
+
+        if (projectCount < 3) {
+            universityResources.style.display = "block";
+            personalProjects.style.display = "block";
+        } else {
+            universityResources.style.display = "none";
+            personalProjects.style.display = "block";
+        }
+
+        // Toggle dark mode when the checkbox changes
+        const darkModeCheckbox =
+            document.getElementById("darkMode");
+
+        darkModeCheckbox.addEventListener("change", function() {
+            document.body.classList.toggle(
+                "dark-mode",
+                darkModeCheckbox.checked
+            );
+        });
+
+        // Display confirmation without refreshing the page
+        const submitButton =
+            document.getElementById("submitButton");
+
+        submitButton.addEventListener("click", function(event) {
+            const form = document.getElementById("contactForm");
+
+            // Allow browser validation before displaying confirmation
+            if (!form.checkValidity()) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const senderName =
+                document.getElementById("name").value.trim();
+
+            alert(
+                "Thank you, " + senderName +
+                ", your message has been sent!"
+            );
+        });
     </script>
 </body>
 </html>
