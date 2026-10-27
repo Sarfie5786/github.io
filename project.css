@@ -177,3 +177,27 @@ body.dark-mode {
     outline: 3px solid #3273dc;
     outline-offset: 3px;
 }
+/* JavaScript adds these classes to existing page elements. */
+.updated-heading {
+    font-size: 30px;
+    border-bottom: 3px solid #3273dc;
+    padding-bottom: 8px;
+}
+
+.highlighted-section {
+    border: 2px solid #3273dc;
+}
+
+/* Dynamic contact-form status and confirmation. */
+#formStatus {
+    min-height: 1.5em;
+    font-weight: bold;
+}
+
+.success-message {
+    color: #176c36;
+}
+
+.dark-mode .success-message {
+    color: #8ee5aa;
+}
