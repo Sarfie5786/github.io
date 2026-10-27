@@ -83,7 +83,7 @@
         </section>
 
         <section id="projects">
-            <h2>My Projects</h2>
+            <h2 id="projectsHeading">My Projects</h2>
 
             <div class="project">
                 <h3>Sara's Shirt Shop</h3>
@@ -128,6 +128,8 @@
                           rows="5" required></textarea>
 
                 <button type="submit" id="submitButton">Submit</button>
+                <!-- JavaScript will insert the timed status message here -->
+                <div id="formStatus" role="status" aria-live="polite"></div>
             </form>
         </section>
     </main>
@@ -182,6 +184,21 @@
             personalProjects.style.display = "block";
         }
 
+        // Dynamically add a description of a recent project to Projects.
+        const newProjectDescription = document.createElement("p");
+        newProjectDescription.textContent =
+            "Recent project: Shenron is a Dragon Ball Z roleplaying bot " +
+            "that tracks character activity and progression.";
+        document.getElementById("projects").appendChild(newProjectDescription);
+
+        // Select and modify two existing DOM elements.
+        const projectsHeading = document.getElementById("projectsHeading");
+        projectsHeading.textContent = "My Projects and Recent Work";
+        projectsHeading.classList.add("updated-heading");
+
+        const featuredSection = document.querySelector("#featured");
+        featuredSection.classList.add("highlighted-section");
+
         // Toggle dark mode when the checkbox changes
         const darkModeCheckbox =
             document.getElementById("darkMode");
@@ -193,27 +210,35 @@
             );
         });
 
-        // Display confirmation without refreshing the page
-        const submitButton =
-            document.getElementById("submitButton");
+        // Show a timed confirmation without reloading the page.
+        const contactForm = document.getElementById("contactForm");
+        const formStatus = document.getElementById("formStatus");
+        const submitButton = document.getElementById("submitButton");
+        let confirmationTimer;
 
-        submitButton.addEventListener("click", function(event) {
-            const form = document.getElementById("contactForm");
+        contactForm.addEventListener("submit", function(event) {
+            event.preventDefault();
 
-            // Allow browser validation before displaying confirmation
-            if (!form.checkValidity()) {
+            // Built-in form validation runs before this submit event.
+            const senderName = document.getElementById("name").value.trim();
+            if (senderName === "") {
+                document.getElementById("name").focus();
                 return;
             }
 
-            event.preventDefault();
+            // Show the loading message immediately using the DOM.
+            formStatus.textContent = "Sending message...";
+            formStatus.classList.remove("success-message");
+            submitButton.disabled = true;
 
-            const senderName =
-                document.getElementById("name").value.trim();
-
-            alert(
-                "Thank you, " + senderName +
-                ", your message has been sent!"
-            );
+            // Replace the loading message after two seconds.
+            clearTimeout(confirmationTimer);
+            confirmationTimer = setTimeout(function() {
+                formStatus.textContent =
+                    "Thank you, " + senderName + ". Message sent successfully!";
+                formStatus.classList.add("success-message");
+                submitButton.disabled = false;
+            }, 2000);
         });
     </script>
 </body>
