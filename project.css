@@ -252,3 +252,12 @@ body.dark-mode {
     visibility: visible;
     opacity: 1;
 }
+
+/* Layout for project cards created from sessionStorage data. */
+.project-list .project {
+    margin-bottom: 25px;
+}
+.project-list .project a {
+    display: inline-block;
+    margin-top: 5px;
+}
