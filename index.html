@@ -94,29 +94,8 @@
         <section id="projects">
             <h2 id="projectsHeading">My Projects</h2>
 
-            <div class="project">
-                <h3>Sara's Shirt Shop</h3>
-                <a href="https://github.com/sarfie5786/Storefront-website">
-                    <img src="images/ProjectGithubSSS.png"
-                         alt="Sara's Shirt Shop project" width="250">
-                </a>
-            </div>
-
-            <div class="project">
-                <h3>Python for Data Analytics Class Portfolio</h3>
-                <a href="https://github.com/sarfie5786/Python">
-                    <img src="images/ProjectGithubPython.png"
-                         alt="Python for Data Analytics" width="250">
-                </a>
-            </div>
-
-            <div class="project">
-                <h3>Shenron</h3>
-                <a href="https://github.com/sarfie5786/DBZ">
-                    <img src="images/ProjectGithubShenron.png"
-                         alt="DBZ Bot" width="250">
-                </a>
-            </div>
+            <!-- Project cards are created from JavaScript objects below. -->
+            <div id="projectList" class="project-list"></div>
         </section>
 
         <section id="contact">
@@ -175,23 +154,93 @@
             skillsList.appendChild(listItem);
         });
 
-        // Count projects and determine featured content visibility
-        const projectCount =
-            document.querySelectorAll("#projects .project").length;
+        // Define three project objects with titles, summaries, images, and links.
+        const defaultProjects = [
+            {
+                title: "Sara's Shirt Shop",
+                summary: "A storefront website where visitors can select shirts, customize options, and manage a shopping cart.",
+                image: "images/ProjectGithubSSS.png",
+                repository: "https://github.com/sarfie5786/Storefront-website"
+            },
+            {
+                title: "Python for Data Analytics Class Portfolio",
+                summary: "A collection of Python programs and coursework exploring programming and data analysis.",
+                image: "images/ProjectGithubPython.png",
+                repository: "https://github.com/sarfie5786/Python"
+            },
+            {
+                title: "Shenron",
+                summary: "A Dragon Ball Z roleplaying bot that tracks character activity and progression.",
+                image: "images/ProjectGithubShenron.png",
+                repository: "https://github.com/sarfie5786/DBZ"
+            }
+        ];
 
-        const universityResources =
-            document.getElementById("universityResources");
+        // On page load, retrieve existing session data or save the default array.
+        const storageKey = "portfolioProjects";
+        let projects;
+        const savedProjects = sessionStorage.getItem(storageKey);
 
-        const personalProjects =
-            document.getElementById("personalProjects");
-
-        if (projectCount < 3) {
-            universityResources.style.display = "block";
-            personalProjects.style.display = "block";
+        if (savedProjects === null) {
+            sessionStorage.setItem(storageKey, JSON.stringify(defaultProjects));
+            projects = defaultProjects;
         } else {
-            universityResources.style.display = "none";
-            personalProjects.style.display = "block";
+            try {
+                projects = JSON.parse(savedProjects);
+                if (!Array.isArray(projects)) {
+                    throw new Error("Stored project data is not an array.");
+                }
+            } catch (error) {
+                // Recover if session storage contains invalid JSON.
+                projects = defaultProjects;
+                sessionStorage.setItem(storageKey, JSON.stringify(defaultProjects));
+            }
         }
+
+        // Create project cards dynamically rather than hardcoding them in HTML.
+        const projectList = document.querySelector("#projectList");
+        projects.forEach(function(project) {
+            const card = document.createElement("div");
+            card.classList.add("project");
+
+            const heading = document.createElement("h3");
+            heading.textContent = project.title;
+
+            const summary = document.createElement("p");
+            summary.textContent = project.summary;
+
+            const link = document.createElement("a");
+            link.href = project.repository;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = "View GitHub Repository";
+
+            const imageLink = document.createElement("a");
+            imageLink.href = project.repository;
+            imageLink.target = "_blank";
+            imageLink.rel = "noopener noreferrer";
+
+            const picture = document.createElement("img");
+            picture.src = project.image;
+            picture.alt = project.title + " project screenshot";
+            picture.width = 250;
+            imageLink.appendChild(picture);
+
+            card.appendChild(heading);
+            card.appendChild(summary);
+            card.appendChild(imageLink);
+            card.appendChild(document.createElement("br"));
+            card.appendChild(link);
+            projectList.appendChild(card);
+        });
+
+        // Use the dynamically rendered project count for featured content.
+        const projectCount = document.querySelectorAll("#projects .project").length;
+        const universityResources = document.getElementById("universityResources");
+        const personalProjects = document.getElementById("personalProjects");
+
+        universityResources.style.display = projectCount < 3 ? "block" : "none";
+        personalProjects.style.display = "block";
 
         // Dynamically add a description of a recent project to Projects.
         const newProjectDescription = document.createElement("p");
