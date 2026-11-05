@@ -8,6 +8,15 @@
 </head>
 
 <body>
+    <!-- Welcome modal displayed when the page loads -->
+    <div id="welcomeModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <h2 id="modalTitle">Welcome to My Portfolio!</h2>
+            <p>This page is a work in progress.</p>
+            <button type="button" id="closeModal">Close</button>
+        </div>
+    </div>
+
     <header>
         <!-- Dark mode control -->
         <div class="theme-control">
@@ -127,7 +136,10 @@
                 <textarea id="message" name="message"
                           rows="5" required></textarea>
 
-                <button type="submit" id="submitButton">Submit</button>
+                <div class="submit-tooltip">
+                    <button type="submit" id="submitButton" aria-describedby="submitTip">Submit</button>
+                    <span id="submitTip" class="tooltip-text" role="tooltip">Click to send your message!</span>
+                </div>
                 <!-- JavaScript will insert the timed status message here -->
                 <div id="formStatus" role="status" aria-live="polite"></div>
             </form>
@@ -137,16 +149,13 @@
     <script>
         "use strict";
 
-        // Ask visitors for their names
-        let userName = prompt("Please enter your name:", "Guest");
-
-        if (userName !== null && userName.trim() !== "") {
-            document.getElementById("greeting").textContent =
-                "Welcome to my portfolio, " + userName + "!";
-        } else {
-            document.getElementById("greeting").textContent =
-                "Welcome to my portfolio!";
-        }
+        // Close the welcome modal when the visitor clicks Close.
+        const welcomeModal = document.getElementById("welcomeModal");
+        const closeModalButton = document.getElementById("closeModal");
+        closeModalButton.addEventListener("click", function() {
+            welcomeModal.style.display = "none";
+        });
+        closeModalButton.focus();
 
         // Display skills using an array and a forEach loop
         const skills = [
@@ -199,15 +208,17 @@
         const featuredSection = document.querySelector("#featured");
         featuredSection.classList.add("highlighted-section");
 
-        // Toggle dark mode when the checkbox changes
-        const darkModeCheckbox =
-            document.getElementById("darkMode");
+        // Restore the visitor's saved dark mode preference on page load.
+        const darkModeCheckbox = document.getElementById("darkMode");
+        const savedDarkMode = localStorage.getItem("darkMode") === "true";
+        darkModeCheckbox.checked = savedDarkMode;
+        document.body.classList.toggle("dark-mode", savedDarkMode);
 
+        // Save future changes so the preference survives page reloads.
         darkModeCheckbox.addEventListener("change", function() {
-            document.body.classList.toggle(
-                "dark-mode",
-                darkModeCheckbox.checked
-            );
+            const enabled = darkModeCheckbox.checked;
+            document.body.classList.toggle("dark-mode", enabled);
+            localStorage.setItem("darkMode", String(enabled));
         });
 
         // Show a timed confirmation without reloading the page.
