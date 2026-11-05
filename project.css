@@ -201,3 +201,54 @@ body.dark-mode {
 .dark-mode .success-message {
     color: #8ee5aa;
 }
+
+/* Modal covers the page with a translucent background. */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.65);
+    padding: 20px;
+}
+.modal-content {
+    box-sizing: border-box;
+    width: min(100%, 440px);
+    padding: 28px;
+    background: #ffffff;
+    color: #222222;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+}
+.modal-content h2 { margin-top: 0; }
+#closeModal { padding: 8px 24px; }
+
+/* Show the submit tooltip on hover or keyboard focus. */
+.submit-tooltip {
+    position: relative;
+    align-self: flex-start;
+}
+.tooltip-text {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    transform: translateX(-50%);
+    white-space: nowrap;
+    background: #222222;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 14px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.15s;
+    pointer-events: none;
+}
+.submit-tooltip:hover .tooltip-text,
+.submit-tooltip:focus-within .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
